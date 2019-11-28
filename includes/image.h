@@ -10,13 +10,16 @@ typedef struct						s_image
 	int				bpp;
 	int				stride;
 	int				endian;
-	cl_int2			geometry;
+	cl_uint2		geometry;
+	void			*mlx;
+	int				size;
+
 	void			(*set_pixel)(struct s_image *this, cl_int2 pos, int color);
 	int				(*get_pixel)(struct s_image *this, cl_int2 pos);
 	void			(*clear)(struct s_image *this);
 } t_image;
 
-t_image						*make_t_image(void *mlx, cl_int2 geometry);
-void						destroy_t_image(t_image *object, void *mlx);
+t_image						*t_image_create(void *mlx, cl_uint2 geometry);
+void						t_image_destroy(t_image *object);
 
 #endif
