@@ -35,32 +35,35 @@ static void		t_image_clear(t_image *this)
 						 this->geometry.y * (this->bpp / 8)));
 }
 
-t_image			*make_t_image(void *mlx, cl_int2 geometry)
+t_image			*t_image_create(void *mlx, cl_uint2 geometry)
 {
 	t_image		*object;
 
 	if (!(object = malloc(sizeof(t_image))))
 	{
-		write(1, "make_t_image: cannot allocate t_image struct.", 45);
-		exit(0);
+		write(1, "make_t_image: cannot allocate t_image struct.\n", 46);
+		exit(1);
 	}
+	object->mlx = mlx;
 	object->geometry = geometry;
+
 	object->get_pixel = &t_image_get_pixel;
 	object->set_pixel = &t_image_set_pixel;
 	object->clear = &t_image_clear;
 	object->image = mlx_new_image(mlx, (int)geometry.x, (int)geometry.y);
 	if (!object->image)
 	{
-		write(1, "make_t_image: cannot create mlx image.", 45);
-		exit(0);
+		write(1, "make_t_image: cannot create mlx image.\n", 39);
+		exit(1);
 	}
 	object->ptr = mlx_get_data_addr(object->image, &(object->bpp),
 									&(object->stride), &(object->endian));
+	object->size = ((int)object->geometry.x * object->bpp / 8) + ((int)object->geometry.y * object->stride);
 	return (object);
 }
 
-void			destroy_t_image(t_image *object, void *mlx)
+void			t_image_destroy(t_image *object)
 {
-	mlx_destroy_image(mlx, object->image);
+	mlx_destroy_image(object->mlx, object->image);
 	free(object);
 }

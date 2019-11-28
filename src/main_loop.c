@@ -56,32 +56,30 @@ void t_main_loop_destroy(struct s_main_loop *this)
 	free(this);
 }
 
-t_main_loop *t_main_loop_create(char *title, cl_uint2 window_geometry, struct s_state *state)
+t_main_loop *t_main_loop_create(char *title, cl_uint2 window_geometry)
 {
 	t_main_loop		*object;
 	t_mlx_instance	mlx_instance;
 
 	if(!(object = (t_main_loop*)malloc(sizeof(t_main_loop))))
 	{
-		write(1, "t_main_loop_create: could not allocate memory.", 46);
+		write(1, "t_main_loop_create: could not allocate memory.\n", 47);
 		exit(1);
 	}
 	if(!(mlx_instance.mlx = mlx_init()))
 	{
-		write(1, "t_main_loop_create: cannot init mlx.", 36);
+		write(1, "t_main_loop_create: cannot init mlx.\n", 37);
 		exit(1);
 	}
 	if(!(mlx_instance.window = mlx_new_window(mlx_instance.mlx, window_geometry.x, window_geometry.y, title)))
 	{
-		write(1, "t_main_loop_create: cannot init mlx window.", 43);
+		write(1, "t_main_loop_create: cannot init mlx window.\n", 44);
 		exit(1);
 	}
 	object->prev_mouse_position = (cl_int2){0, 0};
 
 	mlx_instance.window_geometry = window_geometry;
 	object->mlx_instance = mlx_instance;
-	object->state = state;
-	state->mlx_instance = mlx_instance;
 
 	object->loop = &loop;
 	object->render = &render;
