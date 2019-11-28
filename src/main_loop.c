@@ -5,6 +5,7 @@
 
 static int loop(struct s_main_loop *this)
 {
+	this->state->loop(this->state);
 	this->render(this);
 	return (0);
 }
@@ -19,27 +20,37 @@ static void run(struct s_main_loop *this)
 }
 static int on_key(int keyid, struct s_main_loop *this)
 {
+	this->state->on_key(keyid, this->state);
 	return (0);
 }
 static int on_mouse_move(int x, int y, struct s_main_loop *this)
 {
+	cl_int2 position = (cl_int2){x, y};
+	cl_int2 delta = (cl_int2){x - this->prev_mouse_position.x, y - this->prev_mouse_position.y};
+	this->prev_mouse_position = position;
+	this->state->on_mouse_move(position, delta, this->state);
 	return (0);
 }
 static int on_mouse_down(int keyid, int x, int y, struct s_main_loop *this)
 {
+	cl_int2 position = (cl_int2){x, y};
+	this->state->on_mouse_down(keyid, position, this->state);
 	return (0);
 }
 static int on_mouse_up(int keyid, int x, int y, struct s_main_loop *this)
 {
+	cl_int2 position = (cl_int2){x, y};
+	this->state->on_mouse_up(keyid, position, this->state);
 	return (0);
 }
 static int on_close(struct s_main_loop *this)
 {
+	this->state->on_close(this->state);
 	t_main_loop_destroy(this);
-	return (0);
+	exit(0);
 }
 
-t_main_loop *t_main_loop_destroy(struct s_main_loop *this)
+void t_main_loop_destroy(struct s_main_loop *this)
 {
 	mlx_destroy_window(this->mlx_instance.mlx, this->mlx_instance.window);
 	free(this);
@@ -65,10 +76,12 @@ t_main_loop *t_main_loop_create(char *title, cl_uint2 window_geometry, struct s_
 		write(1, "t_main_loop_create: cannot init mlx window.", 43);
 		exit(1);
 	}
-	object->state = state;
-	state->mlx_instance = mlx_instance;
+	object->prev_mouse_position = (cl_int2){0, 0};
+
 	mlx_instance.window_geometry = window_geometry;
 	object->mlx_instance = mlx_instance;
+	object->state = state;
+	state->mlx_instance = mlx_instance;
 
 	object->loop = &loop;
 	object->render = &render;
