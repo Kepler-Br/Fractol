@@ -1,36 +1,38 @@
-#include "raymarch_state.h"
 #include <unistd.h>
+#include <mlx.h>
+#include "raymarch_state.h"
+#include "mlx_keys.h"
 
+static void loop(struct s_state *this)
+{
+}
+static void render(struct s_state *this)
+{
 
-static int loop(struct s_state *this)
-{
-	return (0);
 }
-static int render(struct s_state *this)
+static void on_key(int keyid, struct s_state *this)
 {
-	write(1, "render\n", 7);
-	return (0);
+	printf("%d!\n", keyid);
+	if (keyid == MLX_K_ESC)
+	{
+		printf("ESC!\n");
+		this->on_close(this);
+		exit(0);
+	}
 }
-static int on_key(int keyid, struct s_state *this)
+static void on_mouse_move(cl_int2 position, cl_int2 delta, struct s_state *this)
 {
-	return (0);
+
 }
-static int on_mouse_move(cl_int2 position, cl_int2 delta, struct s_state *this)
+static void on_mouse_down(int keyid, cl_int2 position, struct s_state *this)
 {
-	return (0);
 }
-static int on_mouse_down(int keyid, cl_int2 position, struct s_state *this)
+static void on_mouse_up(int keyid, cl_int2 position, struct s_state *this)
 {
-	return (0);
 }
-static int on_mouse_up(int keyid, cl_int2 position, struct s_state *this)
-{
-	return (0);
-}
-static int on_close(struct s_state *this)
+static void on_close(struct s_state *this)
 {
 	t_raymarch_state_destroy(this);
-	return (0);
 }
 
 void		t_raymarch_state_destroy(t_state *object)

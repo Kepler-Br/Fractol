@@ -8,6 +8,7 @@ struct s_state;
 
 typedef struct	s_main_loop
 {
+	cl_int2 prev_mouse_position;
 	struct s_state	*state;
 	t_mlx_instance	mlx_instance;
 
@@ -24,6 +25,6 @@ typedef struct	s_main_loop
 }				t_main_loop;
 
 t_main_loop		*t_main_loop_create(char *title, cl_uint2 geometry, struct s_state *state);
-t_main_loop		*t_main_loop_destroy(struct s_main_loop *this);
+void			t_main_loop_destroy(struct s_main_loop *this);
 
 #endif
