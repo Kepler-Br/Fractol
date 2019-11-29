@@ -7,6 +7,7 @@
 typedef struct	s_raymarch_struct
 {
 	t_opencl_instance	*opencl_instance;
+	cl_float3			rotation;
 }				t_raymarch_struct;
 
 void		t_raymarch_state_destroy(t_state *object);
