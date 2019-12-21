@@ -1,7 +1,7 @@
-#include <OpenGL/gl.h>
-
 #ifndef SHADER_H
 #define SHADER_H
+
+#include <OpenGL/gl.h>
 
 typedef struct s_shader {
     GLuint shaderProgram;

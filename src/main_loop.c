@@ -3,6 +3,7 @@
 #include "main_loop.h"
 #include "state.h"
 #include <OpenGL/gl.h>
+#include <stdlib.h>
 
 static int loop(struct s_main_loop *this)
 {
@@ -27,21 +28,21 @@ static int on_key(int keyid, struct s_main_loop *this)
 }
 static int on_mouse_move(int x, int y, struct s_main_loop *this)
 {
-	cl_int2 position = (cl_int2){x, y};
-	cl_int2 delta = (cl_int2){x - this->prev_mouse_position.x, y - this->prev_mouse_position.y};
+	t_ivec2 position = (t_ivec2){x, y};
+    t_ivec2 delta = (t_ivec2){x - this->prev_mouse_position.x, y - this->prev_mouse_position.y};
 	this->prev_mouse_position = position;
 	this->state->on_mouse_move(position, delta, this->state);
 	return (0);
 }
 static int on_mouse_down(int keyid, int x, int y, struct s_main_loop *this)
 {
-	cl_int2 position = (cl_int2){x, y};
+    t_ivec2 position = (t_ivec2){x, y};
 	this->state->on_mouse_down(keyid, position, this->state);
 	return (0);
 }
 static int on_mouse_up(int keyid, int x, int y, struct s_main_loop *this)
 {
-	cl_int2 position = (cl_int2){x, y};
+    t_ivec2 position = (t_ivec2){x, y};
 	this->state->on_mouse_up(keyid, position, this->state);
 	return (0);
 }
@@ -58,7 +59,7 @@ void t_main_loop_destroy(struct s_main_loop *this)
 	free(this);
 }
 
-t_main_loop *t_main_loop_create(char *title, cl_uint2 window_geometry)
+t_main_loop *t_main_loop_create(char *title, t_ivec2 window_geometry)
 {
 	t_main_loop		*object;
 	t_mlx_instance	mlx_instance;
@@ -78,7 +79,7 @@ t_main_loop *t_main_loop_create(char *title, cl_uint2 window_geometry)
 		write(1, "t_main_loop_create: cannot init mlx window.\n", 44);
 		exit(1);
 	}
-	object->prev_mouse_position = (cl_int2){0, 0};
+	object->prev_mouse_position = (t_ivec2){0, 0};
 
 	mlx_instance.window_geometry = window_geometry;
 	object->mlx_instance = mlx_instance;

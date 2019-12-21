@@ -3,6 +3,23 @@
 
 #include <OpenGL/gl.h>
 
+typedef union u_ivec2 {
+    GLint s[2];
+    struct {
+        GLint x;
+        GLint y;
+    };
+} t_ivec2;
+
+typedef union u_ivec3 {
+    GLint s[3];
+    struct {
+        GLint x;
+        GLint y;
+        GLint z;
+    };
+} t_ivec3;
+
 typedef union u_vec3 {
     GLfloat s[3];
     struct {

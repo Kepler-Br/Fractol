@@ -1,14 +1,14 @@
 #ifndef MAIN_LOOP_H
 #define MAIN_LOOP_H
 
-#include <OpenCL/cl.h>
+#include "linear_alg.h"
 #include "mlx_instance.h"
 
 struct s_state;
 
 typedef struct	s_main_loop
 {
-	cl_int2 prev_mouse_position;
+    t_ivec2 prev_mouse_position;
 	struct s_state	*state;
 	t_mlx_instance	mlx_instance;
 
@@ -24,7 +24,7 @@ typedef struct	s_main_loop
 	int				(*on_close)(struct s_main_loop *this);
 }				t_main_loop;
 
-t_main_loop		*t_main_loop_create(char *title, cl_uint2 geometry);
+t_main_loop		*t_main_loop_create(char *title, t_ivec2 geometry);
 void			t_main_loop_destroy(struct s_main_loop *this);
 
 #endif
