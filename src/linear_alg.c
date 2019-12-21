@@ -1,5 +1,5 @@
 #include "linear_alg.h"
-#include <math_tools.h>
+#include <math.h>
 
 float	float3_length(const cl_float3 vec)
 {
@@ -93,10 +93,6 @@ cl_float16	perspective(const cl_float aspect, const float fov, const float near,
 
 float float16_det(cl_float16 m)
 {
-//	float plus = (m.s0 * m.s5 * m.sa*  m.sf) + (m.s1 * m.s6 * m.sb * m.sc) + (m.s2 * m.s7 * m.s8 * m.sd) + (m.s3 * m.s4 * m.s9 * m.se);
-//	float minus = (m.s2 * m.s5 * m.s8 * m.sf) + (m.s1 * m.s4 * m.sb * m.se) + (m.s0 * m.s7 * m.sa * m.sd) + (m.s3 * m.s6 * m.s9 * m.sc);
-//	plus = (m.s0 * m.s5 * m.sa*  m.sf)
-//	return (plus - minus);
 	return (m.s3 * m.s6 * m.s9 * m.sc - m.s2 * m.s7 * m.s9 * m.sc-
 			m.s3 * m.s5 * m.sa * m.sc+m.s1 * m.s7 * m.sa * m.sc+
 			m.s2 * m.s5 * m.sb * m.sc-m.s1 * m.s6 * m.sb * m.sc-

@@ -12,6 +12,8 @@ static void loop(struct s_state *this)
 {
     t_raymarch_struct *this_str = (t_raymarch_struct *)this->instance_struct;
     this_str->mandelbulb_power = lerpf(this_str->mandelbulb_power, this_str->target_mandelbulb_power, 0.01f);
+    this_str->camera_radius = lerpf(this_str->camera_radius, this_str->target_camera_radius, 0.1f);
+
 }
 static void render(struct s_state *this)
 {
@@ -72,9 +74,9 @@ static void on_mouse_down(int keyid, cl_int2 position, struct s_state *this)
 {
     t_raymarch_struct *this_str = (t_raymarch_struct*)this->instance_struct;
     if(keyid == MLX_M_SCROLL_UP)
-        this_str->camera_radius += 0.1f;
+        this_str->target_camera_radius += 0.01f;
     if(keyid == MLX_M_SCROLL_DOWN)
-        this_str->camera_radius -= 0.1f;
+        this_str->target_camera_radius -= 0.01f;
 }
 static void on_mouse_up(int keyid, cl_int2 position, struct s_state *this)
 {
@@ -144,9 +146,10 @@ t_state		*t_raymarch_state_create(t_mlx_instance mlx_instance)
 //	raymarch_struct->opencl_instance = t_opencl_instance_create("./programs/hello.cl", mlx_instance);
 	raymarch_struct->rotation = (cl_float3){0.0f, 0.0f, 0.0f};
     raymarch_struct->camera_radius = 1.0f;
+    raymarch_struct->target_camera_radius = 1.0f;
     raymarch_struct->mandelbulb_power = 0.0f;
     raymarch_struct->target_mandelbulb_power = 1.0f;
-    raymarch_struct->shader = createShader("./programs/vert.glsl", "./programs/frag.glsl");
+    raymarch_struct->shader = createShader("./programs/vert.glsl", "./programs/mandelbulb.glsl");
 
     raymarch_struct->vertex_buffer = create_vertex_buffer();
 	object->mlx_instance = mlx_instance;

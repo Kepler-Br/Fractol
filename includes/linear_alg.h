@@ -1,7 +1,49 @@
-#include <OpenCL/cl.h>
-
 #ifndef LINEAR_ALG_H
 #define LINEAR_ALG_H
+
+#include <OpenCL/cl.h>
+#include <OpenGL/gl.h>
+
+typedef union u_vec3 {
+    GLfloat s[3];
+    struct {
+        GLfloat x;
+        GLfloat y;
+        GLfloat z;
+    };
+} t_vec3;
+
+typedef union u_vec4 {
+    GLfloat s[4];
+    struct {
+        GLfloat x;
+        GLfloat y;
+        GLfloat z;
+        GLfloat w;
+    };
+} t_vec4;
+
+typedef union u_mat4 {
+    GLfloat s[16];
+    struct {
+        GLfloat s0;
+        GLfloat s1;
+        GLfloat s2;
+        GLfloat s3;
+        GLfloat s4;
+        GLfloat s5;
+        GLfloat s6;
+        GLfloat s7;
+        GLfloat s8;
+        GLfloat s9;
+        GLfloat sa;
+        GLfloat sb;
+        GLfloat sc;
+        GLfloat sd;
+        GLfloat se;
+        GLfloat sf;
+    };
+} t_mat4;
 
 float	float3_length(const cl_float3 vec);
 cl_float3 float3_normalize(const cl_float3 vec);
