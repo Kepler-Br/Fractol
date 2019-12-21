@@ -24,6 +24,6 @@ int main()
 	main_loop->run(main_loop);
 //    char * version = glGetString(GL_VERSION);
 //    printf("%s\n", version);
-//    t_shader shader = createShader("./programs/vert.glsl", "./programs/frag.glsl");
+//    t_shader shader = createShader("./programs/vert.glsl", "./programs/mandelbulb.glsl");
 	return 0;
 }
