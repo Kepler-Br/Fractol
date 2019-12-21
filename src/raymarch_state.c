@@ -4,20 +4,42 @@
 #include "mlx_keys.h"
 #include "linear_alg.h"
 #include <math.h>
+#include "math_tools.h"
 
 #include <OpenGL/gl.h>
 
 static void loop(struct s_state *this)
 {
-
+    t_raymarch_struct *this_str = (t_raymarch_struct *)this->instance_struct;
+    this_str->mandelbulb_power = lerpf(this_str->mandelbulb_power, this_str->target_mandelbulb_power, 0.01f);
 }
 static void render(struct s_state *this)
 {
-
     t_raymarch_struct *this_str = (t_raymarch_struct *)this->instance_struct;
-    glBindVertexArrayAPPLE(this_str->vertex_buffer.vao);
 
+    cl_float3 camera_position = (cl_float3){
+            this_str->camera_radius * cosf(this_str->rotation.x) * sinf(this_str->rotation.y),
+            this_str->camera_radius * sinf(this_str->rotation.x) * sinf(this_str->rotation.y),
+            this_str->camera_radius * cosf(this_str->rotation.y)};
+    cl_float16 view = look_at(camera_position, (cl_float3){0.0f, 0.0f, 0.0f}, (cl_float3){0.0f, 0.0f, 1.0f});
+    cl_float16 proj = orthographic((cl_float4){500.0f, -500.0f, 500.0f, -500.0f}, 10.0f, 100.0f);
+//	cl_float16 proj = perspective(1000.0f/1000.0f, 90.0f, 20.0f, 30.0f);
+    cl_float16 projView = mat4_mat4_mul(&proj, &view);
+    cl_float16 inverseProjView = float16_inverse(projView);
+
+
+    glBindVertexArrayAPPLE(this_str->vertex_buffer.vao);
     glUseProgram(this_str->shader.shaderProgram);
+    GLint iresolution_location = glGetUniformLocation(this_str->shader.shaderProgram, "iResolution");
+    glUniform2f(iresolution_location, (GLfloat)this->mlx_instance.window_geometry.x, (GLfloat)this->mlx_instance.window_geometry.y);
+    GLint inversed_pv_location = glGetUniformLocation(this_str->shader.shaderProgram, "inversedProjectionView");
+    glUniformMatrix4fv(inversed_pv_location, 1, GL_FALSE, inverseProjView.s);
+    GLint camera_position_location = glGetUniformLocation(this_str->shader.shaderProgram, "cameraPosition");
+    glUniform3fv(camera_position_location, 1, camera_position.s);
+
+    GLint mandelbulb_power_location = glGetUniformLocation(this_str->shader.shaderProgram, "mandelbulbPower");
+    glUniform1f(mandelbulb_power_location, this_str->mandelbulb_power);
+
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
 }
@@ -33,11 +55,11 @@ static void on_key(int keyid, struct s_state *this)
 	}
 	if (keyid == MLX_K_Q)
     {
-	    this_str->mandelbulb_iterations++;
+	    this_str->target_mandelbulb_power+=0.1f;
     }
 	if (keyid == MLX_K_E)
     {
-        this_str->mandelbulb_iterations--;
+        this_str->target_mandelbulb_power-=0.1f;
     }
 }
 static void on_mouse_move(cl_int2 position, cl_int2 delta, struct s_state *this)
@@ -121,8 +143,9 @@ t_state		*t_raymarch_state_create(t_mlx_instance mlx_instance)
 	}
 //	raymarch_struct->opencl_instance = t_opencl_instance_create("./programs/hello.cl", mlx_instance);
 	raymarch_struct->rotation = (cl_float3){0.0f, 0.0f, 0.0f};
-    raymarch_struct->camera_radius = 10.0f;
-    raymarch_struct->mandelbulb_iterations = 1.0f;
+    raymarch_struct->camera_radius = 1.0f;
+    raymarch_struct->mandelbulb_power = 0.0f;
+    raymarch_struct->target_mandelbulb_power = 1.0f;
     raymarch_struct->shader = createShader("./programs/vert.glsl", "./programs/frag.glsl");
 
     raymarch_struct->vertex_buffer = create_vertex_buffer();
