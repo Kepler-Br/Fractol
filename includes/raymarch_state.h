@@ -2,12 +2,18 @@
 #define RAYMARCH_STATE_H
 
 #include "state.h"
-#include "opencl_instance.h"
+//#include "opencl_instance.h"
+#include "shader.h"
+#include "vertex_buffer.h"
 
 typedef struct	s_raymarch_struct
 {
-	t_opencl_instance	*opencl_instance;
+//	t_opencl_instance	*opencl_instance;
 	cl_float3			rotation;
+    cl_float            camera_radius;
+    cl_int              mandelbulb_iterations;
+    t_shader shader;
+    t_vertex_buffer     vertex_buffer
 }				t_raymarch_struct;
 
 void		t_raymarch_state_destroy(t_state *object);

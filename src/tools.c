@@ -30,7 +30,8 @@ char	*read_file(char *filename)
 
 	if (file_size == -1)
 		return (NULL);
-	text = (char *)malloc(file_size + 1);
+	if(!(text = (char *)malloc(file_size + 1)))
+	    return (NULL);
 	fd = open(filename, O_RDONLY);
 	read(fd, text, file_size);
 	text[file_size] = '\0';

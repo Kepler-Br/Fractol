@@ -2,6 +2,7 @@
 #include <mlx.h>
 #include "main_loop.h"
 #include "state.h"
+#include <OpenGL/gl.h>
 
 static int loop(struct s_main_loop *this)
 {
@@ -12,6 +13,7 @@ static int loop(struct s_main_loop *this)
 static int render(struct s_main_loop *this)
 {
 	this->state->render(this->state);
+    glSwapAPPLE();
 	return (0);
 }
 static void run(struct s_main_loop *this)
