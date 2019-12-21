@@ -19,15 +19,15 @@ static void render(struct s_state *this)
 {
     t_raymarch_struct *this_str = (t_raymarch_struct *)this->instance_struct;
 
-    cl_float3 camera_position = (cl_float3){
+    t_vec3 camera_position = (t_vec3){
             this_str->camera_radius * cosf(this_str->rotation.x) * sinf(this_str->rotation.y),
             this_str->camera_radius * sinf(this_str->rotation.x) * sinf(this_str->rotation.y),
             this_str->camera_radius * cosf(this_str->rotation.y)};
-    cl_float16 view = look_at(camera_position, (cl_float3){0.0f, 0.0f, 0.0f}, (cl_float3){0.0f, 0.0f, 1.0f});
-    cl_float16 proj = orthographic((cl_float4){500.0f, -500.0f, 500.0f, -500.0f}, 10.0f, 100.0f);
-//	cl_float16 proj = perspective(1000.0f/1000.0f, 90.0f, 20.0f, 30.0f);
-    cl_float16 projView = mat4_mat4_mul(&proj, &view);
-    cl_float16 inverseProjView = float16_inverse(projView);
+    t_mat4 view = look_at(camera_position, (t_vec3){0.0f, 0.0f, 0.0f}, (t_vec3){0.0f, 0.0f, 1.0f});
+    t_mat4 proj = orthographic((t_vec4){500.0f, -500.0f, 500.0f, -500.0f}, 10.0f, 100.0f);
+//	t_mat4 proj = perspective(1000.0f/1000.0f, 90.0f, 20.0f, 30.0f);
+    t_mat4 projView = mat4_mat4_mul(&proj, &view);
+    t_mat4 inverseProjView = float16_inverse(projView);
 
 
     glBindVertexArrayAPPLE(this_str->vertex_buffer.vao);
