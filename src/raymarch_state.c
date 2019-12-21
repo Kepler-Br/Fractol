@@ -52,13 +52,9 @@ static void on_key(int keyid, struct s_state *this)
 		exit(0);
 	}
 	if (keyid == MLX_K_Q)
-    {
 	    this_str->target_mandelbulb_power+=0.1f;
-    }
 	if (keyid == MLX_K_E)
-    {
         this_str->target_mandelbulb_power-=0.1f;
-    }
 }
 static void on_mouse_move(t_ivec2 position, t_ivec2 delta, struct s_state *this)
 {

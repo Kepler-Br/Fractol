@@ -69,7 +69,7 @@ vec2 mandelbulb(vec3 position)
 //    }
 //    return (0.5 * log(r) * r / dr);
 
-    float Iterations = 64.;
+    int Iterations = 30;
     float Bailout = 2.;
     float Power = 6. - 4.*cos(fractalParameter/16.);
 
@@ -79,7 +79,7 @@ vec2 mandelbulb(vec3 position)
     vec3 z = position;
     float dr = 1.0;
     float r = 0.0;
-    for (float i = 0.; i < Iterations ; i++) {
+    for (int i = 0; i < Iterations ; i++) {
         r = length(z);
         if (r>Bailout) break;
 
