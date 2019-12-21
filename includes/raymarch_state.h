@@ -12,11 +12,16 @@ typedef struct	s_raymarch_struct
     GLfloat             target_camera_radius;
     GLfloat             mandelbulb_power;
     GLfloat             target_mandelbulb_power;
+    GLboolean           lmb_pressed;
     t_shader            shader;
     t_vertex_buffer     vertex_buffer;
+    GLint iresolution_location;
+    GLint inversed_pv_location;
+    GLint camera_position_location;
+    GLint fractal_parameter_location;
 }				t_raymarch_struct;
 
 void		t_raymarch_state_destroy(t_state *object);
-t_state		*t_raymarch_state_create(t_mlx_instance mlx_instance);
+t_state		*t_raymarch_state_create(t_mlx_instance mlx_instance, char *fragment);
 
 #endif

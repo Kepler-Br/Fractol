@@ -3,7 +3,7 @@
 uniform vec2 iResolution;
 uniform mat4 inversedProjectionView;
 uniform vec3 cameraPosition;
-uniform float mandelbulbPower;
+uniform float fractalParameter;
 
 vec3 screenToWorld()
 {
@@ -71,7 +71,7 @@ vec2 mandelbulb(vec3 position)
 
     float Iterations = 64.;
     float Bailout = 2.;
-    float Power = 6. - 4.*cos(mandelbulbPower/16.);
+    float Power = 6. - 4.*cos(fractalParameter/16.);
 
     vec3 trap = vec3(0,0,0);
     float minTrap = 1e10;
@@ -101,7 +101,6 @@ vec2 mandelbulb(vec3 position)
         z+=position;
     }
     return vec2(0.5*log(r)*r/dr, minTrap);
-//    return 0.5*log(r)*r/dr;
 }
 
 float boxDistance(vec3 currentMarchingLocation, vec3 position, vec3 size)
