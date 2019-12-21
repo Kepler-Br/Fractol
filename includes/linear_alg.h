@@ -1,7 +1,6 @@
 #ifndef LINEAR_ALG_H
 #define LINEAR_ALG_H
 
-#include <OpenCL/cl.h>
 #include <OpenGL/gl.h>
 
 typedef union u_vec3 {
@@ -45,14 +44,14 @@ typedef union u_mat4 {
     };
 } t_mat4;
 
-float	float3_length(const cl_float3 vec);
-cl_float3 float3_normalize(const cl_float3 vec);
-cl_float3 float3_cross(const cl_float3 a, const cl_float3 b);
-cl_float16 look_at(const cl_float3 eye, const cl_float3 center, const cl_float3 up);
-cl_float16	mat4_mat4_mul(const cl_float16 *a, const cl_float16 *b);
-cl_float16	orthographic(const cl_float4 bounds, const float near, const float far);
-cl_float16	perspective(const cl_float aspect, const float fov, const float near, const float far);
-float float16_det(cl_float16 m);
-cl_float16 float16_inverse(cl_float16 m);
+float	float3_length(const t_vec3 vec);
+t_vec3 float3_normalize(const t_vec3 vec);
+t_vec3 float3_cross(const t_vec3 a, const t_vec3 b);
+t_mat4 look_at(const t_vec3 eye, const t_vec3 center, const t_vec3 up);
+t_mat4	mat4_mat4_mul(const t_mat4 *a, const t_mat4 *b);
+t_mat4	orthographic(const t_vec4 bounds, const float near, const float far);
+t_mat4	perspective(const GLfloat aspect, const float fov, const float near, const float far);
+float float16_det(t_mat4 m);
+t_mat4 float16_inverse(t_mat4 m);
 
 #endif
