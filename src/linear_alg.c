@@ -82,10 +82,11 @@ cl_float16	orthographic(const cl_float4 bounds, const float near, const float fa
 
 cl_float16	perspective(const cl_float aspect, const float fov, const float near, const float far)
 {
-	return ((cl_float16){1.0f / (aspect*tanf(fov/2.0f)), 0.0f, 0.0f, 0.0f,
-						 0.0f, 1.0f/ (tanf(fov/2.0f)), 0.0f, 0.0f,
-						 0.0f, 0.0f, -(far+near)/(far-near), -(2.0f*far*near)/(far-near),
-						 0.0f, 0.0f, -1.0f, 0.0f});
+	const float tan_half_fov = tanf(fov/2.0f);
+	return ((cl_float16){1.0f / (aspect*tan_half_fov), 0.0f, 0.0f, 0.0f,
+						 0.0f, 1.0f/ tan_half_fov, 0.0f, 0.0f,
+						 0.0f, 0.0f, -(far+near)/(far-near), -1.0f,
+						 0.0f, 0.0f, -(2.0f*far*near)/(far-near), 0.0f});
 }
 
 
