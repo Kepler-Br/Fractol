@@ -1,5 +1,5 @@
 #include "linear_alg.h"
-#include <math.h>
+#include <math_tools.h>
 
 float	float3_length(const cl_float3 vec)
 {
