@@ -1,6 +1,6 @@
-#include "tools.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int		get_file_size(char *filename)
 {
@@ -37,28 +37,4 @@ char	*read_file(char *filename)
 	text[file_size] = '\0';
 	close(fd);
 	return (text);
-}
-
-void	print_device_info(cl_device_id device_id)
-{
-	char	*device_name;
-	cl_uint	unsigned_int;
-	cl_bool	bool;
-	size_t	t_size;
-
-	if(!(device_name = (char *)malloc(sizeof(char)*255)))
-		exit(0);
-	clGetDeviceInfo(device_id, CL_DEVICE_AVAILABLE, sizeof(cl_bool), &bool, NULL);
-	printf("Available: %d\n", bool);
-	clGetDeviceInfo(device_id, CL_DEVICE_NAME, 255, device_name, NULL);
-	printf("Device name: %s\n", device_name);
-	clGetDeviceInfo(device_id, CL_DEVICE_VERSION, 255, device_name, NULL);
-	printf("Device version: %s\n", device_name);
-	clGetDeviceInfo(device_id, CL_DEVICE_MAX_SAMPLERS, sizeof(cl_uint), &unsigned_int, NULL);
-	printf("Max samplers: %u\n", unsigned_int);
-	clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), &t_size, NULL);
-	printf("Max work group size: %u\n", unsigned_int);
-	clGetDeviceInfo(device_id, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint), &unsigned_int, NULL);
-	printf("Max compute units: %u\n", unsigned_int);
-	free(device_name);
 }

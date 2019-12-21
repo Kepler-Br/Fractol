@@ -5,6 +5,7 @@
 #include "linear_alg.h"
 #include <math.h>
 #include "math_tools.h"
+#include <stdlib.h>
 
 #include <OpenGL/gl.h>
 
@@ -64,13 +65,13 @@ static void on_key(int keyid, struct s_state *this)
         this_str->target_mandelbulb_power-=0.1f;
     }
 }
-static void on_mouse_move(cl_int2 position, cl_int2 delta, struct s_state *this)
+static void on_mouse_move(t_ivec2 position, t_ivec2 delta, struct s_state *this)
 {
 	t_raymarch_struct *this_str = (t_raymarch_struct*)this->instance_struct;
 	this_str->rotation.x += delta.x / 500.0f;
 	this_str->rotation.y += delta.y / 500.0f;
 }
-static void on_mouse_down(int keyid, cl_int2 position, struct s_state *this)
+static void on_mouse_down(int keyid, t_ivec2 position, struct s_state *this)
 {
     t_raymarch_struct *this_str = (t_raymarch_struct*)this->instance_struct;
     if(keyid == MLX_M_SCROLL_UP)
@@ -78,7 +79,7 @@ static void on_mouse_down(int keyid, cl_int2 position, struct s_state *this)
     if(keyid == MLX_M_SCROLL_DOWN)
         this_str->target_camera_radius -= 0.01f;
 }
-static void on_mouse_up(int keyid, cl_int2 position, struct s_state *this)
+static void on_mouse_up(int keyid, t_ivec2 position, struct s_state *this)
 {
 }
 static void on_close(struct s_state *this)
@@ -144,7 +145,7 @@ t_state		*t_raymarch_state_create(t_mlx_instance mlx_instance)
 		exit(1);
 	}
 //	raymarch_struct->opencl_instance = t_opencl_instance_create("./programs/hello.cl", mlx_instance);
-	raymarch_struct->rotation = (cl_float3){0.0f, 0.0f, 0.0f};
+	raymarch_struct->rotation = (t_vec3){0.0f, 0.0f, 0.0f};
     raymarch_struct->camera_radius = 1.0f;
     raymarch_struct->target_camera_radius = 1.0f;
     raymarch_struct->mandelbulb_power = 0.0f;
