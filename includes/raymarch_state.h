@@ -8,6 +8,7 @@
 typedef struct	s_raymarch_struct
 {
 	t_vec3	    		rotation;
+	t_vec3              target_rotation;
     GLfloat             camera_radius;
     GLfloat             target_camera_radius;
     GLfloat             mandelbulb_power;
