@@ -11,3 +11,9 @@ t_vec3   lerpvec3(t_vec3 source, t_vec3 target, float t)
                     (1.0f - t) * source.y + t * target.y,
                     (1.0f - t) * source.z + t * target.z};
 }
+
+t_vec2   lerpvec2(t_vec2 source, t_vec2 target, float t)
+{
+    return (t_vec2){(1.0f - t) * source.x + t * target.x,
+                    (1.0f - t) * source.y + t * target.y};
+}

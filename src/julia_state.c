@@ -6,6 +6,7 @@
 #include <math.h>
 #include "math_tools.h"
 #include <stdlib.h>
+#include "libft.h"
 
 #include <OpenGL/gl.h>
 
@@ -13,6 +14,13 @@ static void loop(struct s_state *this)
 {
     t_julia_struct *this_str = (t_julia_struct *)this->instance_struct;
     this_str->zoom = lerpf(this_str->zoom, this_str->target_zoom, 0.1f);
+    this_str->camera_position = lerpvec2(this_str->camera_position, this_str->target_camera_position, 0.1f);
+    this_str->palette_shift = lerpf(this_str->palette_shift, this_str->target_palette_shift, 0.1f);
+    if (this_str->target_zoom < -1.5f)
+        this_str->target_zoom = -1.5f;
+    if (this_str->target_zoom > 1.3f)
+        this_str->target_zoom = 1.3f;
+//    printf("%f\n", (this_str->target_zoom + 1.5f)/2.8f);
 }
 static void render(struct s_state *this)
 {
@@ -22,6 +30,10 @@ static void render(struct s_state *this)
     glUseProgram(this_str->shader.shaderProgram);
     glUniform2f(this_str->iresolution_location, (GLfloat)this->mlx_instance.window_geometry.x, (GLfloat)this->mlx_instance.window_geometry.y);
     glUniform2fv(this_str->camera_position_location, 1, this_str->camera_position.s);
+    glUniform1f(this_str->zoom_location, this_str->zoom);
+    glUniform3fv(this_str->col_pal_location, 4, this_str->palette->s);
+    glUniform2fv(this_str->julia_parameters_location, 1, this_str->julia_parameters.s);
+    glUniform1f(this_str->palette_shift_location, this_str->palette_shift);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -29,26 +41,61 @@ static void render(struct s_state *this)
 static void on_key(int keyid, struct s_state *this)
 {
     t_julia_struct *this_str = (t_julia_struct*)this->instance_struct;
-    printf("%d!\n", keyid);
+//    printf("%d!\n", keyid);
     if (keyid == MLX_K_ESC)
     {
-        printf("ESC!\n");
+//        printf("ESC!\n");
         this->on_close(this);
         exit(0);
     }
-//    if (keyid == MLX_K_Q)
-//        this_str->target_mandelbulb_power+=0.1f;
-//    if (keyid == MLX_K_E)
-//        this_str->target_mandelbulb_power-=0.1f;
+    if(keyid == MLX_K_1)
+        ft_memcpy(this_str->palette, (t_vec3[]){(t_vec3){0.5, 0.5, 0.5},
+                                                (t_vec3){0.5, 0.5, 0.5}, (t_vec3){1.0, 1.0, 1.0},
+                                                (t_vec3){0.00, 0.33, 0.67}}, sizeof(this_str->palette));
+    if(keyid == MLX_K_2)
+        ft_memcpy(this_str->palette, (t_vec3[]){(t_vec3){0.5, 0.5, 0.5},
+                                                (t_vec3){0.5, 0.5, 0.5}, (t_vec3){1.0, 1.0, 1.0},
+                                                (t_vec3){0.00, 0.10, 0.20}}, sizeof(this_str->palette));
+    if(keyid == MLX_K_3)
+        ft_memcpy(this_str->palette, (t_vec3[]){(t_vec3){0.5, 0.5, 0.5},
+                                                (t_vec3){0.5, 0.5, 0.5}, (t_vec3){1.0, 1.0, 1.0},
+                                                (t_vec3){0.30, 0.20, 0.20}}, sizeof(this_str->palette));
+    if(keyid == MLX_K_4)
+        ft_memcpy(this_str->palette, (t_vec3[]){(t_vec3){0.5, 0.5, 0.5},
+                                                (t_vec3){0.5, 0.5, 0.5}, (t_vec3){1.0, 1.0, 0.5},
+                                                (t_vec3){0.80, 0.90, 0.30}}, sizeof(this_str->palette));
+    if(keyid == MLX_K_5)
+        ft_memcpy(this_str->palette, (t_vec3[]){(t_vec3){0.5, 0.5, 0.5},
+                                                (t_vec3){0.5, 0.5, 0.5}, (t_vec3){1.0, 0.7, 0.4},
+                                                (t_vec3){0.00, 0.15, 0.20}}, sizeof(this_str->palette));
+    if(keyid == MLX_K_6)
+        ft_memcpy(this_str->palette, (t_vec3[]){(t_vec3){0.5, 0.5, 0.5},
+                                                     (t_vec3){0.5, 0.5, 0.5},
+                                                     (t_vec3){2.0, 1.0, 0.0},
+                                                     (t_vec3){0.50, 0.20, 0.25}}, sizeof(this_str->palette));
+    if(keyid == MLX_K_7)
+        ft_memcpy(this_str->palette, (t_vec3[]){(t_vec3){0.8, 0.5, 0.4},
+         (t_vec3){0.2, 0.4, 0.2}, (t_vec3){2.0, 1.0, 1.0},
+         (t_vec3){0.00, 0.25, 0.25}}, sizeof(this_str->palette));
+    if (keyid == MLX_K_Q)
+        this_str->target_palette_shift+=0.1f;
+    if (keyid == MLX_K_E)
+        this_str->target_palette_shift-=0.1f;
 }
 static void on_mouse_move(t_ivec2 position, t_ivec2 delta, struct s_state *this)
 {
     t_julia_struct *this_str = (t_julia_struct*)this->instance_struct;
-//    if(this_str->lmb_pressed)
-//    {
-//        this_str->target_rotation.x -= delta.x / 500.0f;
-//        this_str->target_rotation.y -= delta.y / 500.0f;
-//    }
+    if(!this_str->lmb_pressed && !this_str->rmb_pressed)
+    {
+        this_str->julia_parameters.x -= delta.x / 500.0f;
+        this_str->julia_parameters.y -= delta.y / 500.0f;
+    }
+    if(this_str->lmb_pressed)
+    {
+        this_str->target_camera_position.x -= (float)delta.x / (500.0f + (1.0f - (this_str->target_zoom + 1.5f)/2.8f)*2000.0f);
+        this_str->target_camera_position.y += (float)delta.y / (500.0f + (1.0f - (this_str->target_zoom + 1.5f)/2.8f)*2000.0f);
+    }
+
 }
 static void on_mouse_down(int keyid, t_ivec2 position, struct s_state *this)
 {
@@ -59,12 +106,16 @@ static void on_mouse_down(int keyid, t_ivec2 position, struct s_state *this)
         this_str->target_zoom -= 0.01f;
     if(keyid == MLX_M_LEFT)
         this_str->lmb_pressed = GL_TRUE;
+    if(keyid == MLX_M_RIGHT)
+        this_str->rmb_pressed = GL_TRUE;
 }
 static void on_mouse_up(int keyid, t_ivec2 position, struct s_state *this)
 {
     t_julia_struct *this_str = (t_julia_struct*)this->instance_struct;
     if(keyid == MLX_M_LEFT)
         this_str->lmb_pressed = GL_FALSE;
+    if(keyid == MLX_M_RIGHT)
+        this_str->rmb_pressed = GL_FALSE;
 }
 static void on_close(struct s_state *this)
 {
@@ -135,9 +186,18 @@ t_state		*t_julia_state_create(t_mlx_instance mlx_instance, char *fragment)
     julia_struct->lmb_pressed = GL_FALSE;
     julia_struct->vertex_buffer = create_vertex_buffer();
     julia_struct->iresolution_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "iResolution");
-//    julia_struct->inversed_pv_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "inversedProjectionView");
     julia_struct->camera_position_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "cameraPosition");
-//    julia_struct->fractal_parameter_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "fractalParameter");
+    julia_struct->zoom_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "zoom");
+    julia_struct->palette_shift_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "paletteShift");
+    julia_struct->col_pal_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "colPal");
+    julia_struct->julia_parameters_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "juliaParameters");
+    julia_struct->palette[0] = (t_vec3){0.5, 0.5, 0.5};
+    julia_struct->palette[1] = (t_vec3){0.5, 0.5, 0.5};
+    julia_struct->palette[2] = (t_vec3){1.0, 1.0, 1.0};
+    julia_struct->palette[3] = (t_vec3){0.00, 0.10, 0.20};
+    julia_struct->julia_parameters = (t_vec2){-0.123, 0.745};
+    julia_struct->palette_shift = 0.0f;
+    julia_struct->target_palette_shift = 0.0f;
 
     object->mlx_instance = mlx_instance;
     object->instance_struct = julia_struct;
