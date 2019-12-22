@@ -20,6 +20,14 @@ typedef union u_ivec3 {
     };
 } t_ivec3;
 
+typedef union u_vec2 {
+    GLfloat s[2];
+    struct {
+        GLfloat x;
+        GLfloat y;
+    };
+} t_vec2;
+
 typedef union u_vec3 {
     GLfloat s[3];
     struct {
