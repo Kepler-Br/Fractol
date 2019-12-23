@@ -33,7 +33,6 @@ float sdBox( vec3 p, vec3 b )
 float menger(vec3 position)
 {
     float d = sdBox(position,vec3(1.0));
-    vec4 res = vec4( d, 1.0, 0.0, 0.0 );
 
     float s = 1.0;
     for( int m=0; m<fractalParameter; m++ )
@@ -49,10 +48,9 @@ float menger(vec3 position)
         if( c>d )
         {
             d = c;
-            res = vec4( d, min(res.y,0.2*da*db*dc), (1.0+float(m))/4.0, 0.0 );
         }
     }
-    return res.x;
+    return d;
 }
 
 float boxDistance(vec3 currentMarchingLocation, vec3 position, vec3 size)

@@ -9,7 +9,7 @@ typedef struct s_shader {
     GLuint fragmentShader;
 } t_shader;
 
-t_shader createShader(char *vertexPath, char *fragmentPath);
-void destroyShader(t_shader shader);
+t_shader create_shader(char *vertexPath, char *fragmentPath);
+void destroy_shader(t_shader shader);
 
 #endif //FRACTOL_RELOADED_SHADER_H

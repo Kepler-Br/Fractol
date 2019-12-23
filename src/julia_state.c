@@ -132,7 +132,7 @@ void		t_julia_state_destroy(t_state *object)
     const t_julia_struct *this_str = (t_julia_struct *)object->instance_struct;
     glDeleteBuffers(1, &this_str->vertex_buffer.vbo);
     glDeleteVertexArraysAPPLE(1, &this_str->vertex_buffer.vao);
-    destroyShader(this_str->shader);
+    destroy_shader(this_str->shader);
     free(object->instance_struct);
     free(object);
 }
@@ -188,7 +188,7 @@ t_state		*t_julia_state_create(t_mlx_instance mlx_instance, char *fragment)
     julia_struct->target_camera_position = (t_vec2){0.0f, 0.0f};
     julia_struct->zoom = 0.0f;
     julia_struct->target_zoom = 1.0f;
-    julia_struct->shader = createShader("./programs/vert.glsl", fragment);
+    julia_struct->shader = create_shader("./programs/vert.glsl", fragment);
     julia_struct->lmb_pressed = GL_FALSE;
     julia_struct->vertex_buffer = create_vertex_buffer();
     julia_struct->iresolution_location = glGetUniformLocation(julia_struct->shader.shaderProgram, "iResolution");
