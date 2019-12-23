@@ -55,7 +55,7 @@ static void loadShader(char *fragmentPath, t_shader *shader, GLenum type)
         glAttachShader(shader->shaderProgram, shaderId);
 }
 
-t_shader createShader(char *vertexPath, char *fragmentPath)
+t_shader create_shader(char *vertexPath, char *fragmentPath)
 {
     t_shader shader;
     GLint isLinked;
@@ -75,7 +75,7 @@ t_shader createShader(char *vertexPath, char *fragmentPath)
     return (shader);
 }
 
-void destroyShader(t_shader shader)
+void destroy_shader(t_shader shader)
 {
     glUseProgram(0);
     glDetachShader(shader.shaderProgram, shader.fragmentShader);

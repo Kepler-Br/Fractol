@@ -24,21 +24,33 @@ float sdBox(vec3 currentMarchingLocation, vec3 position, vec3 size)
     return length(max(offset, 0.0f)) + min(max(offset.x,max(offset.y,offset.z)),0.0f);
 }
 
-float sdCross(vec3 position)
+float sdCross(vec3 currentMarchingLocation)
 {
-//    float da = sdBox(position.xy,vec3(1.0));
-//    float db = sdBox(position.yz,vec3(1.0));
-//    float dc = sdBox(position.zx,vec3(1.0));
-//    return min(da,min(db,dc));
-    return 0.0f;
+    float da = sdBox(currentMarchingLocation.xyz, vec3(1.0f),vec3(99999999.0f,1.0,1.0));
+    float db = sdBox(currentMarchingLocation.yzx, vec3(1.0f),vec3(1.0,99999999.0f,1.0));
+    float dc = sdBox(currentMarchingLocation.zxy, vec3(1.0f),vec3(1.0,1.0,99999999.0f));
+    return min(da,min(db,dc));
+//    return 0.0f;
+}
+
+vec3 opRep(vec3 position, vec3 coordinate)
+{
+    return mod(position + 0.5f * coordinate, coordinate) - 0.5f * coordinate;
 }
 
 // http://www.iquilezles.org/www/articles/menger/menger.htm
 float menger(vec3 position)
 {
-    float d = sdBox(position, vec3(1.0f), vec3(0.01f));
-//    float c = sdCross(p*3.0f)/3.0f;
-//    d = max(d, -c);
+    float d = sdBox(position, vec3(1.0f), vec3(1.0f));
+    float s = 1.0f;
+    for (int m = 0; m < 3; m++)
+    {
+        vec3 a = mod( position*s, 2.0 )-1.0;
+        s *= 3.0;
+
+    }
+
+    d = max(d, -c);
     return d;
 }
 

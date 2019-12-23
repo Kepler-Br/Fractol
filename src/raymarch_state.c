@@ -89,7 +89,7 @@ void		t_raymarch_state_destroy(t_state *object)
     const t_raymarch_struct *this_str = (t_raymarch_struct *)object->instance_struct;
     glDeleteBuffers(1, &this_str->vertex_buffer.vbo);
     glDeleteVertexArraysAPPLE(1, &this_str->vertex_buffer.vao);
-    destroyShader(this_str->shader);
+    destroy_shader(this_str->shader);
 	free(object->instance_struct);
 	free(object);
 }
@@ -147,7 +147,7 @@ t_state		*t_raymarch_state_create(t_mlx_instance mlx_instance, char *fragment)
     raymarch_struct->target_camera_radius = 1.0f;
     raymarch_struct->mandelbulb_power = 0.0f;
     raymarch_struct->target_mandelbulb_power = 1.0f;
-    raymarch_struct->shader = createShader("./programs/vert.glsl", fragment);
+    raymarch_struct->shader = create_shader("./programs/vert.glsl", fragment);
     raymarch_struct->lmb_pressed = GL_FALSE;
     raymarch_struct->vertex_buffer = create_vertex_buffer();
     raymarch_struct->iresolution_location = glGetUniformLocation(raymarch_struct->shader.shaderProgram, "iResolution");
