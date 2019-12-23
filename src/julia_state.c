@@ -81,6 +81,11 @@ static void on_key(int keyid, struct s_state *this)
         this_str->target_palette_shift+=0.1f;
     if (keyid == MLX_K_E)
         this_str->target_palette_shift-=0.1f;
+    if (keyid == MLX_K_W)
+    {
+        this_str->target_zoom = 1.0f;
+        this_str->target_camera_position = (t_vec2){0.0f, 0.0f};
+    }
 }
 static void on_mouse_move(t_ivec2 position, t_ivec2 delta, struct s_state *this)
 {
@@ -179,7 +184,8 @@ t_state		*t_julia_state_create(t_mlx_instance mlx_instance, char *fragment)
         write(1, "t_julia_state_create: cannot allocate s_raymarch_struct.\n", 57);
         exit(1);
     }
-    julia_struct->camera_position = (t_vec2){0.0f, 0.0f};
+    julia_struct->camera_position = (t_vec2){10.0f, 10.0f};
+    julia_struct->target_camera_position = (t_vec2){0.0f, 0.0f};
     julia_struct->zoom = 0.0f;
     julia_struct->target_zoom = 1.0f;
     julia_struct->shader = createShader("./programs/vert.glsl", fragment);
