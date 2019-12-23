@@ -8,17 +8,17 @@ uniform vec3 colPal[4];
 uniform float paletteShift;
 
 // https://iquilezles.org/www/articles/distancefractals/distancefractals.htm
-float  julia_distance(vec2 c, vec2 z)
+float  mandelbrot_distance(vec2 c, vec2 z)
 {
     float di = 1.0;
-    vec2 dz = vec2(1.0, 0.0);
+    vec2 dz = vec2(0.0, 0.0);
     vec2 new_dz;
     vec2 new_z;
     float m2;
     for(int i = 0; i < 300; i++)
     {
         new_z = vec2(z.x*z.x - z.y*z.y, z.x*z.y + z.y*z.x) + c;
-        new_dz = 2.0 * vec2(z.x*dz.x - z.y*dz.y, z.x*dz.y + z.y*dz.x);
+        new_dz = 2.0 * vec2(z.x*dz.x - z.y*dz.y, z.x*dz.y + z.y*dz.x) + vec2(1.0,0.0);
         z = new_z;
         dz = new_dz;
         m2 = dot(z, z);
@@ -45,9 +45,7 @@ void main(void) {
 
     float tz = 0.5 - 0.5*zoom;
     float zoo = pow (0.5, 13.0 * tz);
-    vec2 c = cameraPosition + p*zoo;
-
-    float d = julia_distance(juliaParameters.xy, c);
+    float d = mandelbrot_distance(vec2(-0.7,.0068) + cameraPosition + p*zoo, juliaParameters.xy);
 
     d = clamp( pow(4.0*d,0.2), 0.0, 1.0);
     vec3 col;
@@ -55,6 +53,5 @@ void main(void) {
         col = vec3(0.0f);
     else if (d != 0.0)
         col = pal((cos(d + paletteShift) + 1.0f)*2.0f, colPal[0], colPal[1], colPal[2], colPal[3]);
-
     gl_FragColor = vec4(col, 1.0f);
 }
