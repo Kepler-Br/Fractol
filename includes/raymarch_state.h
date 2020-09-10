@@ -16,10 +16,10 @@ typedef struct	s_raymarch_struct
     GLboolean           lmb_pressed;
     t_shader            shader;
     t_vertex_buffer     vertex_buffer;
-    GLint iresolution_location;
-    GLint inversed_pv_location;
-    GLint camera_position_location;
-    GLint fractal_parameter_location;
+    GLint               iresolution_location;
+    GLint               inversed_pv_location;
+    GLint               camera_position_location;
+    GLint               fractal_parameter_location;
 }				t_raymarch_struct;
 
 void		t_raymarch_state_destroy(t_state *object);

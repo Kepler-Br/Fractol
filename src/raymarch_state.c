@@ -12,10 +12,11 @@
 static void loop(struct s_state *this)
 {
     t_raymarch_struct *this_str = (t_raymarch_struct *)this->instance_struct;
-    this_str->mandelbulb_power = lerpf(this_str->mandelbulb_power, this_str->target_mandelbulb_power, 0.01f);
+    this_str->mandelbulb_power = lerpf(this_str->mandelbulb_power, this_str->target_mandelbulb_power, 0.1f);
     this_str->camera_radius = lerpf(this_str->camera_radius, this_str->target_camera_radius, 0.1f);
     this_str->rotation = lerpvec3(this_str->rotation, this_str->target_rotation, 0.5f);
 }
+
 static void render(struct s_state *this)
 {
     t_raymarch_struct *this_str = (t_raymarch_struct *)this->instance_struct;
@@ -25,7 +26,6 @@ static void render(struct s_state *this)
             this_str->camera_radius * cosf(this_str->rotation.y)};
     t_mat4 view = look_at(camera_position, (t_vec3){0.0f, 0.0f, 0.0f}, (t_vec3){0.0f, 0.0f, 1.0f});
     t_mat4 proj = orthographic((t_vec4){500.0f, -500.0f, 500.0f, -500.0f}, 100.0f, 301.0f);
-//	t_mat4 proj = perspective(1000.0f/1000.0f, 90.0f, 20.0f, 30.0f);
     t_mat4 projView = mat4_mat4_mul(&proj, &view);
     t_mat4 inverseProjView = float16_inverse(projView);
 
@@ -138,7 +138,7 @@ t_state		*t_raymarch_state_create(t_mlx_instance mlx_instance, char *fragment)
 	}
 	if(!(raymarch_struct = (t_raymarch_struct*)malloc(sizeof(t_raymarch_struct))))
 	{
-		write(1, "t_raymarch_state_create: cannot allocate s_raymarch_struct.\n", 60);
+		write(1, "t_raymarch_state_create: cannot allocate t_raymarch_struct.\n", 60);
 		exit(1);
 	}
     raymarch_struct->rotation = (t_vec3){0.0f, 0.0f, 0.0f};
