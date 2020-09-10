@@ -21,8 +21,8 @@ vec3 screenToWorld()
 // https://www.iquilezles.org/www/articles/mandelbulb/mandelbulb.htm
 vec2 mandelbulb(vec3 position)
 {
-    int Iterations = 30;
-    float Bailout = 2.;
+    int Iterations = 10;
+    float Bailout = 2.0;
     float Power = 6. - 4.*cos(fractalParameter/16.);
 
     vec3 trap = vec3(0,0,0);
@@ -80,9 +80,9 @@ vec3 rayMarch(vec3 rayOrigin, vec3 rayDirection)
 {
     float distanceFromOrigin = 0.0f;
 
-    const int maxSteps = 500;
-    const float maxDistance = 100.0f;
-    const float minDistanceToSurface = 0.0001f;
+    const int maxSteps = 100;
+    const float maxDistance = 10.0f;
+    const float minDistanceToSurface = 0.001f;
 
     int steps = 0;
     for(; steps < maxSteps; steps++)
@@ -118,7 +118,9 @@ void main(void) {
     vec3 distance = rayMarch(cameraPosition, rayDirection);
     vec3 normal = getNormal(rayDirection*distance.x+cameraPosition);
     float trap = fract(distance.z*.5 + .5);
-    vec3 col = pal(trap, vec3(0.5), vec3(0.5), vec3(1.0,1.0,1.0), vec3(.0, .10, .2));
-    col = (col + vec3(distance.y/100.0f, 0.0f, distance.y/200.0f))/2.0f;
+    //vec3 col = pal(trap, vec3(0.5), vec3(0.5), vec3(1.0,1.0,1.0), vec3(.0, .10, .2));
+    vec3 col = vec3(0.0f);
+        col = (col + vec3(distance.y/100.0f, 0.0f, distance.y/200.0f))/2.0f;
+//    col = (col + pal(distance.y/100.0f, vec3(0.5, 0.5, 0.5), vec3(0.5, 0.5, 0.5), vec3(2.0, 1.0, 0.0), vec3(0.50, 0.20, 0.25)))/2.0f;
     gl_FragColor = vec4(col, 1.0f);
 }

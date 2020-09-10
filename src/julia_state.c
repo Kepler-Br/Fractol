@@ -15,7 +15,7 @@ static void loop(struct s_state *this)
     t_julia_struct *this_str = (t_julia_struct *)this->instance_struct;
     this_str->zoom = lerpf(this_str->zoom, this_str->target_zoom, 0.1f);
     this_str->camera_position = lerpvec2(this_str->camera_position, this_str->target_camera_position, 0.1f);
-    this_str->palette_shift = lerpf(this_str->palette_shift, this_str->target_palette_shift, 0.1f);
+    this_str->palette_shift = lerpf(this_str->palette_shift, this_str->target_palette_shift, 0.0001f);
     if (this_str->target_zoom < -1.5f)
         this_str->target_zoom = -1.5f;
     if (this_str->target_zoom > 1.3f)
