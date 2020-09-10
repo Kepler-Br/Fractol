@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tools.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsena <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/10 18:29:54 by nsena             #+#    #+#             */
+/*   Updated: 2020/09/10 18:29:55 by nsena            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -12,7 +24,7 @@ int		get_file_size(char *filename)
 
 	total_size = 0;
 	fd = open(filename, O_RDONLY);
-	while((ret = read(fd, buff, buff_size)))
+	while ((ret = read(fd, buff, buff_size)))
 	{
 		if (ret == -1)
 			return (-1);
@@ -30,8 +42,8 @@ char	*read_file(char *filename)
 
 	if (file_size == -1)
 		return (NULL);
-	if(!(text = (char *)malloc(file_size + 1)))
-	    return (NULL);
+	if (!(text = (char *)malloc(file_size + 1)))
+		return (NULL);
 	fd = open(filename, O_RDONLY);
 	read(fd, text, file_size);
 	text[file_size] = '\0';

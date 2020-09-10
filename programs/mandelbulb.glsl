@@ -118,9 +118,9 @@ void main(void) {
     vec3 distance = rayMarch(cameraPosition, rayDirection);
     vec3 normal = getNormal(rayDirection*distance.x+cameraPosition);
     float trap = fract(distance.z*.5 + .5);
-    //vec3 col = pal(trap, vec3(0.5), vec3(0.5), vec3(1.0,1.0,1.0), vec3(.0, .10, .2));
+//    vec3 col = pal(trap, vec3(0.5), vec3(0.5), vec3(1.0,1.0,1.0), vec3(.0, .10, .2));
     vec3 col = vec3(0.0f);
         col = (col + vec3(distance.y/100.0f, 0.0f, distance.y/200.0f))/2.0f;
-//    col = (col + pal(distance.y/100.0f, vec3(0.5, 0.5, 0.5), vec3(0.5, 0.5, 0.5), vec3(2.0, 1.0, 0.0), vec3(0.50, 0.20, 0.25)))/2.0f;
+//    col = (col + pal(distance.y/1000.0f, vec3(0.5, 0.5, 0.5), vec3(0.5, 0.5, 0.5), vec3(2.0, 1.0, 0.0), vec3(0.50, 0.20, 0.25)))/2.0f;
     gl_FragColor = vec4(col, 1.0f);
 }

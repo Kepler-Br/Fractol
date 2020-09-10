@@ -1,6 +1,7 @@
 #ifndef MATH_TOOLS_H
 #define MATH_TOOLS_H
 
+#define GL_SILENCE_DEPRECATION
 #include <OpenGL/gl.h>
 #include "linear_alg.h"
 
