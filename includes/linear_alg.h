@@ -1,6 +1,7 @@
 #ifndef LINEAR_ALG_H
 #define LINEAR_ALG_H
 
+#define GL_SILENCE_DEPRECATION
 #include <OpenGL/gl.h>
 
 typedef union u_ivec2 {

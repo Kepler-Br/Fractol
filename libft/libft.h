@@ -58,6 +58,8 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+void				ft_assert(int condition, char *message_on_fail);
+
 /*
 **Compares two strings, returns the result of
 **comparison between first unequal pair of chars or zero
