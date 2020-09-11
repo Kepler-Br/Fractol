@@ -58,9 +58,9 @@ static void		load_shader(char *fragment_path, t_shader *shader, GLenum type)
 	size = ft_strlen(source);
 	shader_id = glCreateShader(type);
 	if (type == GL_VERTEX_SHADER)
-		shader->vertexShader = shader_id;
+		shader->vertex_shader = shader_id;
 	else if (type == GL_FRAGMENT_SHADER)
-		shader->fragmentShader = shader_id;
+		shader->fragment_shader = shader_id;
 	glShaderSource(shader_id, 1, &source, &size);
 	glCompileShader(shader_id);
 	glGetShaderiv(shader_id, GL_COMPILE_STATUS, &success);
@@ -68,7 +68,7 @@ static void		load_shader(char *fragment_path, t_shader *shader, GLenum type)
 	if (success == GL_FALSE)
 		exit(0);
 	else
-		glAttachShader(shader->shaderProgram, shader_id);
+		glAttachShader(shader->shader_program, shader_id);
 }
 
 t_shader		create_shader(char *vertex_path, char *fragment_path)
@@ -76,14 +76,14 @@ t_shader		create_shader(char *vertex_path, char *fragment_path)
 	t_shader	shader;
 	GLint		is_linked;
 
-	shader.shaderProgram = glCreateProgram();
+	shader.shader_program = glCreateProgram();
 	load_shader(vertex_path, &shader, GL_VERTEX_SHADER);
 	load_shader(fragment_path, &shader, GL_FRAGMENT_SHADER);
-	glLinkProgram(shader.shaderProgram);
-	glGetProgramiv(shader.shaderProgram, GL_LINK_STATUS, &is_linked);
+	glLinkProgram(shader.shader_program);
+	glGetProgramiv(shader.shader_program, GL_LINK_STATUS, &is_linked);
 	if (is_linked == GL_FALSE)
 	{
-		print_error(shader.shaderProgram, GL_LINK_STATUS);
+		print_error(shader.shader_program, GL_LINK_STATUS);
 		exit(0);
 	}
 	return (shader);
@@ -92,9 +92,9 @@ t_shader		create_shader(char *vertex_path, char *fragment_path)
 void			destroy_shader(t_shader shader)
 {
 	glUseProgram(0);
-	glDetachShader(shader.shaderProgram, shader.fragmentShader);
-	glDetachShader(shader.shaderProgram, shader.vertexShader);
-	glDeleteProgram(shader.shaderProgram);
-	glDeleteShader(shader.vertexShader);
-	glDeleteShader(shader.fragmentShader);
+	glDetachShader(shader.shader_program, shader.fragment_shader);
+	glDetachShader(shader.shader_program, shader.vertex_shader);
+	glDeleteProgram(shader.shader_program);
+	glDeleteShader(shader.vertex_shader);
+	glDeleteShader(shader.fragment_shader);
 }

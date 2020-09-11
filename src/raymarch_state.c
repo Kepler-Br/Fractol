@@ -38,10 +38,10 @@ static void				render_gl_stuff(t_raymarch_struct *this_str,
 							t_mat4 *inverse_proj_view)
 {
 	glBindVertexArrayAPPLE(this_str->vertex_buffer.vao);
-	glUseProgram(this_str->shader.shaderProgram);
+	glUseProgram(this_str->shader.shader_program);
 	glUniform2f(this_str->iresolution_location,
-				(GLfloat)this->mlx_instance.window_geometry.x,
-				(GLfloat)this->mlx_instance.window_geometry.y);
+				(GLfloat)this->mlx_instance.window_geometry.s[0],
+				(GLfloat)this->mlx_instance.window_geometry.s[1]);
 	glUniformMatrix4fv(this_str->inversed_pv_location, 1, GL_FALSE,
 					inverse_proj_view->s);
 	glUniform3fv(this_str->camera_position_location, 1, camera_position->s);
@@ -62,11 +62,11 @@ static void				render(struct s_state *this)
 	proj = orthographic(
 			(t_vec4){500.0f, -500.0f, 500.0f, -500.0f}, 100.0f, 301.0f);
 	camera_position = (t_vec3){
-			this_str->camera_radius * cosf(this_str->rotation.x) *
-			sinf(this_str->rotation.y),
-			this_str->camera_radius * sinf(this_str->rotation.x) *
-			sinf(this_str->rotation.y),
-			this_str->camera_radius * cosf(this_str->rotation.y)};
+			this_str->camera_radius * cosf(this_str->rotation.s[0]) *
+			sinf(this_str->rotation.s[1]),
+			this_str->camera_radius * sinf(this_str->rotation.s[0]) *
+			sinf(this_str->rotation.s[1]),
+			this_str->camera_radius * cosf(this_str->rotation.s[1])};
 	view = look_at(camera_position, (t_vec3){0.0f, 0.0f, 0.0f},
 				(t_vec3){0.0f, 0.0f, 1.0f});
 	inverse_proj_view = float16_inverse(mat4_mat4_mul(&proj, &view));
@@ -97,8 +97,8 @@ static void				on_mouse_move(t_ivec2 position, t_ivec2 delta,
 	this_str = (t_raymarch_struct*)this->instance_struct;
 	if (this_str->lmb_pressed)
 	{
-		this_str->target_rotation.x -= delta.x / 500.0f;
-		this_str->target_rotation.y -= delta.y / 500.0f;
+		this_str->target_rotation.s[0] -= delta.s[0] / 500.0f;
+		this_str->target_rotation.s[1] -= delta.s[1] / 500.0f;
 	}
 }
 
@@ -181,13 +181,13 @@ static void				init_raymarch(t_raymarch_struct *raymarch_struct,
 	raymarch_struct->lmb_pressed = GL_FALSE;
 	raymarch_struct->vertex_buffer = create_vertex_buffer();
 	raymarch_struct->iresolution_location = glGetUniformLocation(
-			raymarch_struct->shader.shaderProgram, "iResolution");
+			raymarch_struct->shader.shader_program, "iResolution");
 	raymarch_struct->inversed_pv_location = glGetUniformLocation(
-			raymarch_struct->shader.shaderProgram, "inversedProjectionView");
+			raymarch_struct->shader.shader_program, "inversedProjectionView");
 	raymarch_struct->camera_position_location = glGetUniformLocation(
-			raymarch_struct->shader.shaderProgram, "cameraPosition");
+			raymarch_struct->shader.shader_program, "cameraPosition");
 	raymarch_struct->fractal_parameter_location = glGetUniformLocation(
-			raymarch_struct->shader.shaderProgram, "fractalParameter");
+			raymarch_struct->shader.shader_program, "fractalParameter");
 }
 
 t_state					*t_raymarch_state_create(t_mlx_instance mlx_instance,

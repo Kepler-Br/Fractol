@@ -1,14 +1,26 @@
-#ifndef MAIN_LOOP_H
-#define MAIN_LOOP_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_loop.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsena <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/11 13:14:12 by nsena             #+#    #+#             */
+/*   Updated: 2020/09/11 13:14:13 by nsena            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "linear_alg.h"
-#include "mlx_instance.h"
+#ifndef MAIN_LOOP_H
+# define MAIN_LOOP_H
+
+# include "linear_alg.h"
+# include "mlx_instance.h"
 
 struct s_state;
 
 typedef struct	s_main_loop
 {
-    t_ivec2 prev_mouse_position;
+	t_ivec2			prev_mouse_position;
 	struct s_state	*state;
 	t_mlx_instance	mlx_instance;
 
@@ -19,8 +31,10 @@ typedef struct	s_main_loop
 
 	int				(*on_key)(int keyid, struct s_main_loop *this);
 	int				(*on_mouse_move)(int x, int y, struct s_main_loop *this);
-	int				(*on_mouse_down)(int keyid, int x, int y, struct s_main_loop *this);
-	int				(*on_mouse_up)(int keyid, int x, int y, struct s_main_loop *this);
+	int				(*on_mouse_down)(int keyid, int x, int y,
+			struct s_main_loop *this);
+	int				(*on_mouse_up)(int keyid, int x, int y,
+			struct s_main_loop *this);
 	int				(*on_close)(struct s_main_loop *this);
 }				t_main_loop;
 

@@ -19,13 +19,13 @@ float		lerpf(float source, float target, float t)
 
 t_vec3		lerpvec3(t_vec3 source, t_vec3 target, float t)
 {
-	return (t_vec3){(1.0f - t) * source.x + t * target.x,
-					(1.0f - t) * source.y + t * target.y,
-					(1.0f - t) * source.z + t * target.z};
+	return (t_vec3){(1.0f - t) * source.s[0] + t * target.s[0],
+					(1.0f - t) * source.s[1] + t * target.s[1],
+					(1.0f - t) * source.s[2] + t * target.s[2]};
 }
 
 t_vec2		lerpvec2(t_vec2 source, t_vec2 target, float t)
 {
-	return (t_vec2){(1.0f - t) * source.x + t * target.x,
-					(1.0f - t) * source.y + t * target.y};
+	return (t_vec2){(1.0f - t) * source.s[0] + t * target.s[0],
+					(1.0f - t) * source.s[1] + t * target.s[1]};
 }

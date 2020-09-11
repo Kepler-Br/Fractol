@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_keys.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsena <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/11 13:15:54 by nsena             #+#    #+#             */
+/*   Updated: 2020/09/11 13:15:54 by nsena            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MLX_KEYS_H
-#define MLX_KEYS_H
+# define MLX_KEYS_H
 
 # define MLX_K_Q 12
 # define MLX_K_W 13
@@ -26,7 +38,6 @@
 # define MLX_K_SEMICOLON 41
 # define MLX_K_QUOTE 39
 # define MLX_K_BACKSLASH 42
-
 
 # define MLX_K_Z 6
 # define MLX_K_X 7

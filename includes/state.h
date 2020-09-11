@@ -1,7 +1,19 @@
-#ifndef STATE_H
-#define STATE_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   state.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsena <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/11 13:20:37 by nsena             #+#    #+#             */
+/*   Updated: 2020/09/11 13:20:38 by nsena            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "mlx_instance.h"
+#ifndef STATE_H
+# define STATE_H
+
+# include "mlx_instance.h"
 
 typedef struct	s_state
 {
@@ -12,9 +24,12 @@ typedef struct	s_state
 	void			(*render)(struct s_state *this);
 
 	void			(*on_key)(int keyid, struct s_state *this);
-	void			(*on_mouse_move)(t_ivec2 position, t_ivec2 delta, struct s_state *this);
-	void			(*on_mouse_down)(int keyid, t_ivec2 position, struct s_state *this);
-	void			(*on_mouse_up)(int keyid, t_ivec2 position, struct s_state *this);
+	void			(*on_mouse_move)(t_ivec2 position, t_ivec2 delta,
+			struct s_state *this);
+	void			(*on_mouse_down)(int keyid, t_ivec2 position,
+			struct s_state *this);
+	void			(*on_mouse_up)(int keyid, t_ivec2 position,
+			struct s_state *this);
 	void			(*on_close)(struct s_state *this);
 }				t_state;
 
