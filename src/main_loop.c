@@ -48,8 +48,8 @@ static int			on_mouse_move(int x, int y, struct s_main_loop *this)
 	const t_ivec2	position = (t_ivec2){x, y};
 	t_ivec2			delta;
 
-	delta = (t_ivec2){x - this->prev_mouse_position.x, y -
-			this->prev_mouse_position.y};
+	delta = (t_ivec2){x - this->prev_mouse_position.s[0], y -
+			this->prev_mouse_position.s[1]};
 	this->prev_mouse_position = position;
 	this->state->on_mouse_move(position, delta, this->state);
 	return (0);
@@ -109,7 +109,7 @@ t_main_loop			*t_main_loop_create(char *title, t_ivec2 window_geometry)
 			"t_main_loop_create: could not allocate memory.");
 	ft_assert((object->mlx_instance.mlx = mlx_init()) != NULL &&
 		(object->mlx_instance.window = mlx_new_window(object->mlx_instance.mlx,
-		window_geometry.x, window_geometry.y, title)) != NULL,
+		window_geometry.s[0], window_geometry.s[1], title)) != NULL,
 		"t_main_loop_create: cannot init mlx.");
 	object->prev_mouse_position = (t_ivec2){0, 0};
 	object->mlx_instance.window_geometry = window_geometry;

@@ -41,10 +41,10 @@ static void				render(struct s_state *this)
 	const t_julia_struct	*this_str = (t_julia_struct *)this->instance_struct;
 
 	glBindVertexArrayAPPLE(this_str->vertex_buffer.vao);
-	glUseProgram(this_str->shader.shaderProgram);
+	glUseProgram(this_str->shader.shader_program);
 	glUniform2f(this_str->iresolution_location,
-		(GLfloat)this->mlx_instance.window_geometry.x,
-		(GLfloat)this->mlx_instance.window_geometry.y);
+		(GLfloat)this->mlx_instance.window_geometry.s[0],
+		(GLfloat)this->mlx_instance.window_geometry.s[1]);
 	glUniform2fv(this_str->camera_position_location, 1,
 				this_str->camera_position.s);
 	glUniform1f(this_str->zoom_location, this_str->zoom);
@@ -143,15 +143,15 @@ static void				on_mouse_move(t_ivec2 position, t_ivec2 delta,
 	this_str = (t_julia_struct*)this->instance_struct;
 	if (!this_str->lmb_pressed && !this_str->rmb_pressed)
 	{
-		this_str->julia_parameters.x -= delta.x / 500.0f;
-		this_str->julia_parameters.y -= delta.y / 500.0f;
+		this_str->julia_parameters.s[0] -= delta.s[0] / 500.0f;
+		this_str->julia_parameters.s[1] -= delta.s[1] / 500.0f;
 	}
 	if (this_str->lmb_pressed)
 	{
-		this_str->target_camera_position.x -= (float)delta.x / (1.0f -
+		this_str->target_camera_position.s[0] -= (float)delta.s[0] / (1.0f -
 				this_str->target_zoom + 0.1f) / (200000.0f * (1.0f -
 						this_str->target_zoom + 0.1f));
-		this_str->target_camera_position.y += (float)delta.y / (1.0f -
+		this_str->target_camera_position.s[1] += (float)delta.s[1] / (1.0f -
 				this_str->target_zoom + 0.1f) / (200000.0f * (1.0f -
 						this_str->target_zoom + 0.1f));
 	}
@@ -231,7 +231,7 @@ static void				setup_julia_variables(t_julia_struct *js,
 									char *fragment)
 {
 	const t_shader	shader = create_shader("./programs/vert.glsl", fragment);
-	const GLuint	shader_p = shader.shaderProgram;
+	const GLuint	shader_p = shader.shader_program;
 
 	js->camera_position = (t_vec2){10.0f, 10.0f};
 	js->target_camera_position = (t_vec2){0.0f, 0.0f};
